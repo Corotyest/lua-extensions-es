@@ -1,2 +1,3 @@
-# lua-extensions-es
-Una serie de funciones que resultan utiles para Lua.
+# Extensiones para Lua
+
+Paquete con funciones compiladas para Lua utilizando [luvit](https://luvit.io).
