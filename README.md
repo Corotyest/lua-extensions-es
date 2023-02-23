@@ -23,3 +23,8 @@ Debe tener preinstalado el programa de [git](https://git-scm.com/book/en/v2/Gett
 ```bash
 git clone https://github.com/Corotyest/lua-extensions-es.git
 ```
+
+# Documentación
+
+Dírigirse a la [Wiki oficial](https://github.com/Corotyest/lua-extensions-es/wiki) donde se podrá encontrar toda la documentación correspondiente sobre
+cada una de las funciones que se pueden encontrar en esté *paquete*.
