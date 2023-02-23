@@ -6,6 +6,7 @@ A lo que también me digne por fin a hacerle una `bitacóra` o como GitHub les l
 
 # Instalación
 
+### Lit
 *Nota*:
 Así mismo téngase el `instalador` de *paquetes* lit (éste viene preinstalado con luvit).
 
@@ -14,6 +15,7 @@ Así mismo téngase el `instalador` de *paquetes* lit (éste viene preinstalado 
 lit install Corotyest/lua-extensions
 ```
 
+### Git
 O, si sé prefiere clone directamente esté repositorio.
 <br>
 Debe tener preinstalado el programa de [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
