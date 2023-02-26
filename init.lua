@@ -1,51 +1,43 @@
---- Tries to compare self with integrants of `...`; if varag is more than 1 returns table.
----@param self any
----@vararg any
----@return boolean/table
-local function compare(self, ...)
-	if not self then return nil, string.format(
-		'bad argument #%s for %s (%s expected got %s)', 1, 'compare', 'any', nil) end
-	local n = select('#', ...)
-	if n == 0 then
-		return nil, string.format(
-			'bad argument #%s for %s (%s expected got %s)', 'varag', 'compare', 'any', 'nil')
-	elseif n == 1 then
-		return rawequal(self, select(n, ...)) or self == select(n, ...)
-	else
-		local response = {}
-		for _n = 1, n do
-			local value = select(_n, ...); response[value] = compare(self, value)
-		end
-		return response
-	end
-end
-
-_G.compare = compare
-
-local ext = setmetatable({
+local library = {
+	math = require './libs/math',
 	table = require './libs/table',
 	string = require './libs/string',
-	math = require './libs/math',
-}, {
+	package = require './package'
+}
+
+local utils = require 'utils'
+for name, fn in pairs(utils) do
+	library[name] = fn
+end
+
+--- Serealizes the Lua extensions in a compact mode.
+library = setmetatable(library, {
+	--- Initializes the module and adds the functions to the global environment.
+	---@param self {}
+	---@param notGlobal any
+	---@return table library
 	__call = function(self, notGlobal)
-		for _, v in pairs(self) do
-			v(notGlobal)
+		for key, tab in pairs(self) do
+			if key ~= 'package' then
+				if not _G[key] and not notGlobal then
+					_G[key] = tab
+				elseif type(tab) == 'table' then
+					if _G[key] and not notGlobal then
+						for name, fn in pairs(tab) do
+							_G[key][name] = fn
+						end
+					else
+						local lib = _G[key] or { }
+						for k, v in pairs(lib) do
+							tab[k] = v
+						end
+					end
+				end
+			end
 		end
+
 		return self
 	end
 })
 
-for n, m in pairs(ext) do
-	setmetatable(m, {
-		__index = _G[n],
-		__call = function(self, notGlobal)
-			local env = setmetatable(ext, {__index = _G})
-			for k, v in pairs(self) do
-				setfenv(v, env)
-				if not notGlobal then _G[n][k] = v end
-			end
-		end
-	})
-end
-
-return ext
+return library
